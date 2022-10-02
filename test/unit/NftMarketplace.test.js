@@ -21,13 +21,22 @@ const { developmentChains } = require("../../helper-hardhat-config")
               await basicNft.approve(nftMarketplace.address, TOKEN_ID)
           })
 
-          it("list and can be boughts", async () => {
-              await nftMarketplace.listItems(basicNft.address, TOKEN_ID, PRICE)
-              const playerConnectMarketPlace = nftMarketplace.connect(player)
-              await playerConnectMarketPlace.buyItem(basicNft.address, TOKEN_ID, { value: PRICE })
-              const newOwner = await basicNft.ownerOf(TOKEN_ID)
-              const deployerProceeds = await nftMarketplace.getProceeds(deployer)
-              assert(newOwner.toString() == player.address)
-              assert(deployerProceeds.toString() == PRICE.toString())
+          describe("listItem", function () {
+              it("emits an event after listing an item", async function () {
+                  expect(await nftMarketplace.listItems(basicNft.address, TOKEN_ID, PRICE)).to.emit(
+                      "ItemListed"
+                  )
+              })
+              it("list and can be boughts", async () => {
+                  await nftMarketplace.listItems(basicNft.address, TOKEN_ID, PRICE)
+                  const playerConnectMarketPlace = nftMarketplace.connect(player)
+                  await playerConnectMarketPlace.buyItem(basicNft.address, TOKEN_ID, {
+                      value: PRICE,
+                  })
+                  const newOwner = await basicNft.ownerOf(TOKEN_ID)
+                  const deployerProceeds = await nftMarketplace.getProceeds(deployer)
+                  assert(newOwner.toString() == player.address)
+                  assert(deployerProceeds.toString() == PRICE.toString())
+              })
           })
       })

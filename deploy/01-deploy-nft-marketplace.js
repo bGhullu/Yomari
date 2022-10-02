@@ -9,7 +9,7 @@ module.exports = async ({ deployments, getNamedAccounts }) => {
         from: deployer,
         args: arguments,
         log: true,
-        waitConfitmations: network.config.blockConfirmations || 1,
+        waitConfirmations: network.config.blockConfirmations || 1,
     })
     if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
         log("Verifying....")
