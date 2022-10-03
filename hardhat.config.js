@@ -1,4 +1,5 @@
-require("@nomiclabs/hardhat-waffle")
+require("@nomicfoundation/hardhat-toolbox")
+require("@nomicfoundation/hardhat-chai-matchers")
 require("@nomiclabs/hardhat-etherscan")
 require("@nomiclabs/hardhat-ethers")
 require("hardhat-deploy")
